@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"command": "npm run dev",
+			"group": "build",
+			"isBackground": true,
+			"label": "Start EcoTracker Frontend",
+			"problemMatcher": [],
+			"type": "shell",
+			"args": [],
+			"options": {
+				"cwd": "${workspaceFolder}/frontend"
+			}
+		}
+	]
+}
