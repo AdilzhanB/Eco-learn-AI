@@ -49,6 +49,7 @@ interface ActivityState {
   
   fetchActivities: () => Promise<void>
   addActivity: (activity: Omit<Activity, 'id' | 'user_id' | 'created_at'>) => Promise<void>
+  deleteActivity: (id: number) => Promise<void>
   fetchCategories: () => Promise<void>
   fetchAnalytics: () => Promise<void>
 }
@@ -119,6 +120,29 @@ export const useActivityStore = create<ActivityState>((set, get) => ({
       get().fetchAnalytics()
     } catch (error) {
       console.error('Error adding activity:', error)
+      throw error
+    }
+  },
+
+  deleteActivity: async (id: number) => {
+    try {
+      const response = await fetch(`${API_BASE}/api/activities/${id}`, {
+        method: 'DELETE',
+        headers: {
+          ...getAuthHeader(),
+        },
+      })
+
+      if (!response.ok) throw new Error('Failed to delete activity')
+      
+      set(state => ({
+        activities: state.activities.filter(activity => activity.id !== id)
+      }))
+      
+      // Refresh analytics
+      get().fetchAnalytics()
+    } catch (error) {
+      console.error('Error deleting activity:', error)
       throw error
     }
   },

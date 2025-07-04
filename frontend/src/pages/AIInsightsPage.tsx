@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Brain, Lightbulb, Target, TrendingUp, Sparkles, RefreshCw } from 'lucide-react'
+import { Brain, Lightbulb, Target, TrendingUp, Sparkles, RefreshCw, Zap, Leaf } from 'lucide-react'
 import { useAIStore } from '../stores/aiStore'
 import { useActivityStore } from '../stores/activityStore'
 import { format } from 'date-fns'
@@ -82,199 +82,222 @@ export default function AIInsightsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="w-full max-w-full space-y-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="text-center bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-3xl p-8 border border-purple-200 dark:border-purple-800 shadow-xl backdrop-blur-sm"
       >
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              AI Insights
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Powered by Gemini AI to help you reduce your carbon footprint
-            </p>
-          </div>
-          
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl">
-            <Brain className="h-6 w-6 text-white" />
-          </div>
-        </div>
-
-        {/* Daily Tip Banner */}
-        {dailyTip && (
-          <motion.div
-            className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-200 rounded-2xl p-6 mb-6"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <div className="flex items-start space-x-3">
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-lg">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">Today's Eco Tip</h3>
-                <p className="text-gray-700">{dailyTip}</p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </motion.div>
-
-      {/* Action Buttons */}
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
-        <button
-          onClick={handleAnalyze}
-          disabled={isLoading}
-          className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl group disabled:opacity-50"
-        >
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-lg group-hover:scale-110 transition-transform duration-200">
-              <TrendingUp className="h-5 w-5 text-white" />
-            </div>
-            <h3 className="font-semibold text-gray-900">Analyze Footprint</h3>
-          </div>
-          <p className="text-gray-600 text-sm">
-            Get AI-powered insights about your carbon footprint patterns
-          </p>
-          {lastAnalysis && (
-            <p className="text-xs text-gray-500 mt-2">
-              Last analysis: {format(lastAnalysis, 'MMM dd, HH:mm')}
-            </p>
-          )}
-        </button>
-
-        <button
-          onClick={handleSuggestActivities}
-          disabled={isLoading}
-          className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl group disabled:opacity-50"
-        >
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-2 rounded-lg group-hover:scale-110 transition-transform duration-200">
-              <Lightbulb className="h-5 w-5 text-white" />
-            </div>
-            <h3 className="font-semibold text-gray-900">Get Suggestions</h3>
-          </div>
-          <p className="text-gray-600 text-sm">
-            Discover eco-friendly activities tailored to your lifestyle
-          </p>
-        </button>
-
-        <button
-          onClick={handleSuggestGoals}
-          disabled={isLoading}
-          className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl group disabled:opacity-50"
-        >
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-lg group-hover:scale-110 transition-transform duration-200">
-              <Target className="h-5 w-5 text-white" />
-            </div>
-            <h3 className="font-semibold text-gray-900">Set Goals</h3>
-          </div>
-          <p className="text-gray-600 text-sm">
-            Get personalized carbon reduction goals based on your data
-          </p>
-        </button>
-      </motion.div>
-
-      {/* Current Stats */}
-      {analytics && (
         <motion.div
-          className="bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.8, type: "spring" }}
+          className="inline-block mb-6"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Carbon Footprint Overview</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
-                {analytics.totalCarbonFootprint.toFixed(1)}
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-3xl shadow-2xl">
+            <Brain className="h-16 w-16 text-white" />
+          </div>
+        </motion.div>
+        <h1 className="text-6xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+          AI Insights
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 text-xl max-w-4xl mx-auto leading-relaxed">
+          Powered by Gemini 1.5 Flash AI to provide personalized recommendations, analyze your carbon footprint patterns, and suggest actionable steps to reduce your environmental impact.
+        </p>
+        
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleAnalyze}
+            disabled={isLoading}
+            className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <RefreshCw className="h-4 w-4 animate-spin" />
+                Analyzing...
               </div>
-              <div className="text-sm text-gray-600">Total CO₂ (kg)</div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Get AI Analysis
+              </div>
+            )}
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSuggestActivities}
+            disabled={isLoading}
+            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-4 w-4" />
+              Get Suggestions
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {analytics.activitiesCount}
-              </div>
-              <div className="text-sm text-gray-600">Activities</div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleSuggestGoals}
+            disabled={isLoading}
+            className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <div className="flex items-center gap-2">
+              <Target className="h-4 w-4" />
+              Set Goals
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">
-                {analytics.weeklyAverage.toFixed(1)}
-              </div>
-              <div className="text-sm text-gray-600">Weekly Avg</div>
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Daily Tip Banner */}
+      {dailyTip && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800 rounded-2xl p-6 shadow-lg"
+        >
+          <div className="flex items-start space-x-4">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl">
+              <Leaf className="h-6 w-6 text-white" />
             </div>
-            <div className="text-center">
-              <div className={`text-2xl font-bold ${analytics.improvement >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {analytics.improvement >= 0 ? '+' : ''}{analytics.improvement.toFixed(1)}%
-              </div>
-              <div className="text-sm text-gray-600">Improvement</div>
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold text-green-800 dark:text-green-300 mb-2">
+                🌱 Today&apos;s Eco Tip
+              </h3>
+              <p className="text-green-700 dark:text-green-200 leading-relaxed">
+                {dailyTip}
+              </p>
             </div>
           </div>
         </motion.div>
       )}
 
-      {/* AI Insights */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Recent Insights</h2>
-          {isLoading && (
-            <div className="flex items-center space-x-2 text-purple-600">
-              <RefreshCw className="h-4 w-4 animate-spin" />
-              <span className="text-sm">AI thinking...</span>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 shadow-lg"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-3 rounded-xl">
+              <TrendingUp className="h-6 w-6 text-white" />
             </div>
-          )}
-        </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {analytics?.totalCarbonFootprint?.toFixed(1) || 0}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">kg CO₂ Total</div>
+            </div>
+          </div>
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Carbon Footprint</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Your total environmental impact measurement
+          </p>
+        </motion.div>
 
-        {insights.length === 0 ? (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <Brain className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-500 mb-2">No insights yet</h3>
-            <p className="text-gray-400 mb-6">
-              Click the buttons above to get AI-powered insights about your carbon footprint
-            </p>
-          </motion.div>
-        ) : (
-          <div className="space-y-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 shadow-lg"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl">
+              <Brain className="h-6 w-6 text-white" />
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {insights?.length || 0}
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">AI Insights</div>
+            </div>
+          </div>
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">AI Analysis</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Personalized recommendations generated
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 shadow-lg"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl">
+              <Target className="h-6 w-6 text-white" />
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                {(analytics?.improvement ?? 0).toFixed(1)}%
+              </div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Improvement</div>
+            </div>
+          </div>
+          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Progress</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Your environmental impact reduction
+          </p>
+        </motion.div>
+      </div>
+
+      {/* AI Insights Grid */}
+      {insights && insights.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="space-y-6"
+        >
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Your AI Insights
+            </h2>
+            {lastAnalysis && (
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Last updated: {format(new Date(lastAnalysis), 'MMM dd, yyyy')}
+              </div>
+            )}
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {insights.map((insight, index) => (
               <motion.div
-                key={`${insight.type}-${insight.timestamp}`}
-                className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-lg"
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ delay: 0.6 + index * 0.1 }}
+                className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <div className="flex items-start space-x-4">
-                  <div className={`bg-gradient-to-r ${getInsightColor(insight.type)} p-2 rounded-lg`}>
+                  <div className={`bg-gradient-to-r ${getInsightColor(insight.type)} p-3 rounded-xl`}>
                     {getInsightIcon(insight.type)}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900">{insight.title}</h3>
-                      <span className="text-xs text-gray-500">
-                        {format(new Date(insight.timestamp), 'MMM dd, HH:mm')}
-                      </span>
+                      <h3 className="font-semibold text-gray-900 dark:text-white capitalize">
+                        {insight.type}
+                      </h3>
                     </div>
-                    <div className="text-gray-700 whitespace-pre-wrap">{insight.content}</div>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                      {insight.content}
+                    </p>
                     {insight.impact && (
-                      <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <div className="text-sm text-green-800">
-                          <strong>Potential Impact:</strong> {insight.impact}
+                      <div className="mt-3 p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <Zap className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <span className="text-sm font-medium text-green-800 dark:text-green-300">
+                            Potential Impact: {insight.impact}
+                          </span>
                         </div>
                       </div>
                     )}
@@ -283,8 +306,63 @@ export default function AIInsightsPage() {
               </motion.div>
             ))}
           </div>
-        )}
-      </div>
+        </motion.div>
+      )}
+
+      {/* No Insights State */}
+      {(!insights || insights.length === 0) && !isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-center py-20"
+        >
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-12 shadow-lg">
+            <Brain className="h-20 w-20 text-gray-300 mx-auto mb-6" />
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              No AI Insights Yet
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-8">
+              Get started by analyzing your carbon footprint or requesting personalized suggestions from our AI assistant.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleAnalyze}
+              disabled={isLoading}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4" />
+                Get Your First Analysis
+              </div>
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Loading State */}
+      {isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex items-center justify-center py-20"
+        >
+          <div className="text-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="w-16 h-16 border-4 border-purple-200 border-t-purple-500 rounded-full mx-auto mb-4"
+            />
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              AI is thinking...
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Analyzing your data to provide personalized insights
+            </p>
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }

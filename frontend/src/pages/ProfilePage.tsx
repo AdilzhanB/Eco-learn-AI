@@ -44,34 +44,53 @@ export default function ProfilePage() {
     toast.success('Logged out successfully! 👋')
   }
 
-  if (!user) return null
+  if (!user) {
+    return (
+      <div className="w-full max-w-full space-y-8">
+        <div className="text-center py-20">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-white/20 dark:border-gray-700/20 p-12 shadow-lg">
+            <User className="h-20 w-20 text-gray-300 mx-auto mb-6" />
+            <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              Loading Profile...
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Please wait while we load your profile information.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const memberSince = format(new Date(user.created_at), 'MMMM yyyy')
   const carbonSaved = analytics?.totalCarbonFootprint ? Math.max(0, 100 - analytics.totalCarbonFootprint) : 0
   const activitiesLogged = analytics?.activitiesCount || 0
 
   return (
-    <div className="space-y-8">
+    <div className="w-full max-w-full space-y-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="text-center bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-3xl p-8 border border-blue-200 dark:border-blue-800 shadow-xl backdrop-blur-sm"
       >
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Profile
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Manage your account and track your eco-journey
-            </p>
+        <motion.div
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.8, type: "spring" }}
+          className="inline-block mb-6"
+        >
+          <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-6 rounded-3xl shadow-2xl">
+            <User className="h-16 w-16 text-white" />
           </div>
-          
-          <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-3 rounded-xl">
-            <User className="h-6 w-6 text-white" />
-          </div>
-        </div>
+        </motion.div>
+        <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          Profile
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 text-xl max-w-4xl mx-auto leading-relaxed">
+          Manage your account and track your eco-journey with personalized insights and achievements.
+        </p>
       </motion.div>
 
       {/* Profile Card */}

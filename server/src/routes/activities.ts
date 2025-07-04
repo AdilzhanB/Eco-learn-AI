@@ -1,7 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { db } from '../database/init';
+import { authenticateToken } from './auth';
 
 export const activitiesRouter = Router();
+
+interface AuthRequest extends Request {
+  user?: { userId: number; email: string }
+}
 
 activitiesRouter.get('/', (req: Request, res: Response) => {
   try {
@@ -27,9 +32,10 @@ activitiesRouter.get('/', (req: Request, res: Response) => {
 });
 
 // Add new activity
-activitiesRouter.post('/', (req: Request, res: Response) => {
+activitiesRouter.post('/', authenticateToken, (req: AuthRequest, res: Response) => {
   try {
     const { category_id, description, carbon_footprint, date } = req.body;
+    const userId = req.user?.userId || 1; // fallback to user 1 for now
     
     if (!category_id || !description || carbon_footprint === undefined || !date) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -37,10 +43,10 @@ activitiesRouter.post('/', (req: Request, res: Response) => {
     
     const insert = db.prepare(`
       INSERT INTO activities (user_id, category_id, description, carbon_footprint, date)
-      VALUES (1, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?)
     `);
     
-    const result = insert.run(category_id, description, carbon_footprint, date);
+    const result = insert.run(userId, category_id, description, carbon_footprint, date);
     
     // Get the created activity with category info
     const activity = db.prepare(`
@@ -75,10 +81,12 @@ activitiesRouter.get('/categories', (req: Request, res: Response) => {
 });
 
 // Delete activity
-activitiesRouter.delete('/:id', (req: Request, res: Response) => {
+activitiesRouter.delete('/:id', authenticateToken, (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const result = db.prepare('DELETE FROM activities WHERE id = ?').run(id);
+    const userId = req.user?.userId || 1; // fallback to user 1 for now
+    
+    const result = db.prepare('DELETE FROM activities WHERE id = ? AND user_id = ?').run(id, userId);
     
     if (result.changes === 0) {
       return res.status(404).json({ error: 'Activity not found' });
