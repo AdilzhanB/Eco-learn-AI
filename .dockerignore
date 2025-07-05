@@ -1,0 +1,51 @@
+# Docker ignore file
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+README.md
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.git
+.gitignore
+.github
+docs
+*.md
+
+# Build artifacts
+dist
+build
+coverage
+
+# Logs
+logs
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Development
+.env.example
+docker-compose.dev.yml
+monitoring/
+k8s/
+
+# Testing
+test/
+tests/
+*.test.js
+*.spec.js
